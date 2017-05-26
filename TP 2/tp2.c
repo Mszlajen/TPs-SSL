@@ -8,6 +8,8 @@ int automataIdentificadores (char[]);
 int valoresIdentificadores (char);
 int automataConstantes (char[]);
 int valoresConstantes (char);
+int automataPuntuacion (char[]);
+int valoresPuntuacion (char);
 int automataToken(char[]);
 
 int main ()
@@ -31,6 +33,9 @@ int main ()
         break;
     case 3:
         printf("Constante");
+        break;
+    case 4:
+        printf("Caracter de Puntuacion");
         break;
     default:
         printf("No es un token");
@@ -56,6 +61,9 @@ int automataToken (char palabra[])
             break;
         case 3:
             token = automataConstantes(palabra);
+            break;
+        case 4:
+            token = automataPuntuacion(palabra);
             break;
         default:
             token = 1;
@@ -254,3 +262,35 @@ int automataConstantes (char cadena[])
         return 0;
 }
 
+int valoresPuntuacion (char caracter)
+{
+
+     switch (caracter)
+    {
+            case ';':
+                return 0;
+            default:
+                return -1;
+    }
+}
+
+int automataPuntuacion (char cadena[])
+{
+    int i, valorCaracter, estado = 0;
+    int transiciones[][1] = {{1},
+                            {2},
+                            {2}};
+
+    for(i = 0; cadena[i] != '\0'; i++)
+    {
+        valorCaracter = valoresPuntuacion(cadena[i]);
+        if(valorCaracter >= 0)
+            estado = transiciones[estado][valorCaracter];
+        else
+            estado = 2;
+    }
+    if(estado == 1)
+        return 1;
+    else
+        return 0;
+}
