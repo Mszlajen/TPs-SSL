@@ -3,9 +3,8 @@
 
 #define tam 10
 
-//int automata (int columnas, int, int [][columnas], char [], int [], int, char []);
 int automata (int *[], char [], int [], int, char []);
-void generalizarCaracteres (char [], char [], char[3]);
+void generalizarCaracteres (char [], char [], char[]);
 int esTerminal (int, int []);
 int posCaracter (char [], char);
 
@@ -50,12 +49,14 @@ void main ()
 
 int automata (int *transiciones[], char caracteres[], int terminales[], int estVacio, char cadena[])
 {
-    int i, estado = 0, valorCaracter;
+    int i, estado = 0, valorCaracter, cantCaracteres;
+    
+    cantCaracteres = strlen(caracteres);
+    
     for(i = 0; cadena[i] != '\0'; i++)
     {
-        valorCaracter = posCaracter(caracteres, cadena[i]);
-        if(valorCaracter >= 0)
-            estado = (transiciones + estado * sizeof(int))[valorCaracter];
+        if((valorCaracter = posCaracter(caracteres, cadena[i])) >= 0 )
+            estado = *((int*)transiciones + estado * cantCaracteres + valorCaracter);
         else
             estado = estVacio;
     }
@@ -81,11 +82,10 @@ int posCaracter (char cadena[], char caracter)
 {
     int i;
 
-    for (i = 0; cadena [i] != '\0' && cadena [i] != caracter; i++);
-    if(cadena [i] == '\0')
-        return -1;
-    else
-        return i;
+    for (i = 0; cadena [i] != '\0'; i++)
+        if(cadena [i] == caracter)
+            return i;
+    return -1;
 }
 
 void generalizarCaracteres (char original[], char destino[], char sustitutos[3]) // Sustitutos va [Digito, Mayuscula, Minuscula]
@@ -122,11 +122,10 @@ int automataReservadas (char cadena[])
                             {13,13,13,13,13,13,13,13,13,13,2},
                             {13,13,13,13,13,13,13,13,13,13,13},
                             {13,13,13,13,13,13,13,13,13,13,13}};
-    char caracteres [] = {'i', 'f', 'e', 'l', 's', 'w', 'h', 'n', 't', 'f', 'o', 'a'};
+    char caracteres [] = {'i', 'f', 'e', 'l', 's', 'w', 'h', 'n', 't', 'f', 'o', 'a', '\0'};
     int terminales [] = {12, -1};
 
     return automata(&transiciones, caracteres, terminales, 13, cadena);
-    //return automata(11, 14,transiciones, caracteres, terminales, 1, cadena);
 }
 
 int automataOperadores (char cadena[])
@@ -138,11 +137,10 @@ int automataOperadores (char cadena[])
                             {6,6,6,6,6,6,6,6,5},
                             {6,6,6,6,6,6,6,6,6},
                             {6,6,6,6,6,6,6,6,6}};
-    char caracteres [] = {'+', '-', '=', '>', '!', '(', ')', '&', '|'};
+    char caracteres [] = {'+', '-', '=', '>', '!', '(', ')', '&', '|', '\0'};
     int terminales [] = {2, 5, -1};
 
     return automata(&transiciones, caracteres, terminales, 6, cadena);
-    //return automata(9, 7, transiciones, caracteres, terminales, 2, cadena);
 }
 
 int automataConstantes (char cadena[])
@@ -153,14 +151,13 @@ int automataConstantes (char cadena[])
                             {3, 5, 5, 5},
                             {4, 3, 5, 5},
                             {5, 5, 5, 5}};
-    char caracteres [] = {'d', '.', '+', '-'};
+    char caracteres [] = {'d', '.', '+', '-', '\0'};
     int terminales [] = {3, 4, -1};
-    char cadenaTemp [10], sustitutos[] = {'d', '\0', '\0'};
+    char cadenaTemp [tam + 1], sustitutos[] = {'d', 'M', 'm'};
 
     generalizarCaracteres(cadena, cadenaTemp, sustitutos);
 
     return automata(&transiciones, caracteres, terminales, 5, cadenaTemp);
-    //return automata (4, 6, transiciones, caracteres, terminales, 3, cadenaTemp);
 }
 
 int automataPuntuacion (char cadena[])
@@ -168,19 +165,18 @@ int automataPuntuacion (char cadena[])
     int transiciones[][1] = {{1},
                             {2},
                             {2}};
-    char caracteres[] = {';'};
-    int terminales[] = {2, -1};
+    char caracteres[] = {';', '\0'};
+    int terminales[] = {1, -1};
 
-    return automata(&transiciones, caracteres, terminales, 1, cadena);
-    //return automata(1, 3, transiciones, caracteres, terminales, 1, cadena);
+    return automata(&transiciones, caracteres, terminales, 2, cadena);
 }
 
-int automataIdentificadores (char cadena []) //Revisar
+int automataIdentificadores (char cadena [])
 {
-    char transiciones [][3] = {{1, 2, 2},
+    char transiciones [][3] = {{2, 1, 2},
                             {1, 1, 1},
                             {2, 2, 2}};
-    char caracteres [] = {'D', 'M', 'm'};
+    char caracteres [] = {'d', 'M', 'm', '\0'};
     char cadenaTemp [tam + 1];
     int terminales [] = {1, -1};
 
