@@ -3,7 +3,7 @@
 
 #define tam 10
 
-int automata (int **, char [], int [], int, char []);
+int automata (int *[], char [], int [], int, char []);
 void generalizarCaracteres (char [], char [], char[]);
 int esTerminal (int, int []);
 int posCaracter (char [], char);
@@ -47,7 +47,7 @@ void main ()
         }
 }
 
-int automata (int **transiciones, char caracteres[], int terminales[], int estVacio, char cadena[])
+int automata (int *transiciones[], char caracteres[], int terminales[], int estVacio, char cadena[])
 {
     int i, estado = 0, valorCaracter, cantCaracteres;
 
@@ -105,6 +105,7 @@ void generalizarCaracteres (char original[], char destino[], char sustitutos[]) 
     }
     destino[i] = '\0';
 }
+
 
 int automataReservadas (char cadena[])
 {
