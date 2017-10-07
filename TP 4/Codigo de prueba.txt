@@ -1,0 +1,7 @@
+int Entero = 1;
+float Valor = 6.4;
+int ParteEntera = valor;
+Valor = Valor - ParteEntera;
+
+if 1 (mayorque) valor && valor (mayorque) -1;
+Entero = 0;
