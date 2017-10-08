@@ -1,7 +1,7 @@
-int Entero = 1;
+int Entero = 0;
 float Valor = 6.4;
 int ParteEntera = valor;
 Valor = Valor - ParteEntera;
 
-if 1 > Valor && Valor > -1;
-	Entero = 0;
+if Valor == 0;
+	Entero = 1;
