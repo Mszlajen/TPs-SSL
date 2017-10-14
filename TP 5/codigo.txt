@@ -3,5 +3,5 @@ float Valor = 6.4;
 int ParteEntera = Valor;
 Valor = Valor - ParteEntera;
 
-if (Valor == 0)
+if (Valor == 0) 
 	Entero = 1;

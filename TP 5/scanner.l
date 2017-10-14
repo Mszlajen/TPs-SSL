@@ -8,7 +8,7 @@ int             {return INT;}
 else            {return ELSE;}
 while           {return WHILE;}
 float           {return FLOAT;}
-[.+;()=>!]|-    {return *yytext;}            
+[.+;()=>!]|-    {return yytext[0];}            
 \|\|            {return OPOR;}
 ==              {return OPCOMPARATIVO;}
 &&              {return OPAND;}

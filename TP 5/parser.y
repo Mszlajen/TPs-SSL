@@ -20,7 +20,6 @@
 %%
 listaSentencias : listaSentencias sentencia
                 |
-                sentencia
                 ;
 sentencia : sentExpresion
             |
@@ -40,20 +39,20 @@ sentSeleccion : IF '(' expresion ')' sentencia
                 ;
 sentIteracion : WHILE '(' expresion ')' sentencia
                 ;
-
 declaracionVariable : tipoDato variable 
                     ;
 tipoDato : INT
             |
             FLOAT
             ;
-variable : identificador
-            |
-            identificador inicial
+variable : identificador inicial
             ;
-inicial : '=' constante
+inicial : '=' valor
         |
-        '=' identificador
+        ;
+valor : identificador
+        |
+        constante
         ;
 expresion : expOr
             |
@@ -125,7 +124,10 @@ signo : '+'
 %%
 
 int main () {
-        return yyparse();
+        int resultado = yyparse();
+        if(!resultado)
+                puts("No Sintax Error.");
+        return resultado;
 }
 
 void yyerror(const char * s) {
