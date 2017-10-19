@@ -3,9 +3,8 @@
     #define YYERROR_VERBOSE
     void yyerror(const char *);
 %}
-%token MAYUSCULA
-%token MINUSCULA
-%token DIGITO
+%token ID
+%token NUM
 %token IF
 %token ELSE
 %token INT
@@ -45,12 +44,12 @@ tipoDato : INT
             |
             FLOAT
             ;
-variable : identificador inicial
+variable : ID inicial
             ;
 inicial : '=' valor
         |
         ;
-valor : identificador
+valor : ID
         |
         constante
         ;
@@ -86,34 +85,23 @@ expNegacion : expPrimaria
             |
             '!' expPrimaria
             ;
-expPrimaria : identificador
+expPrimaria : ID
             |
             constante
             |
             '(' expresion ')'
             ;
-identificador : MAYUSCULA caracteres
-                ;
-caracteres : MAYUSCULA caracteres
-            |
-            MINUSCULA caracteres
-            |  
-            DIGITO caracteres
-            |
-            ;
 constante : signo constEntera
             |
             signo constReal
             ;
-constEntera : DIGITO
-            |
-            constEntera DIGITO 
+constEntera : NUM
             ;
-constReal : constEntera '.' mantisa
+constReal : NUM '.' mantisa
             |
-            '.' constEntera
+            '.' NUM
             ;
-mantisa : constEntera
+mantisa : NUM
         |
         ;
 signo : '+'
